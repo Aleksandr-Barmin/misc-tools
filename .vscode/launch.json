@@ -1,0 +1,38 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: aws_login",
+            "type": "python",
+            "request": "launch",
+            "program": "aws_login.py",
+            "console": "externalTerminal",
+            "justMyCode": false, 
+            "args": ["sirius-codeartifact", "credentials.json"],
+            "env": {
+                "HTTPS_PROXY": "http://dia2.santanderuk.gs.corp:80",
+                "HTTP_PROXY": "http://dia2.santanderuk.gs.corp:80",
+                "NO_PROXY": ".corp,sts.santander.co.uk,sts.amazonaws.com",
+                "DEFAULT_CA_BUNDLE_PATH": "C:\\Users\\C0284773\\Documents\\dev-code\\aws-auth\\cacert.pem"
+            }
+        },
+        {
+            "name": "Python: vault_login",
+            "type": "python",
+            "request": "launch",
+            "program": "vault_login.py",
+            "console": "externalTerminal",
+            "justMyCode": false, 
+            "args": [], 
+            "env": {
+                "HTTPS_PROXY": "http://dia2.santanderuk.gs.corp:80",
+                "HTTP_PROXY": "http://dia2.santanderuk.gs.corp:80",
+                "NO_PROXY": ".corp,sts.santander.co.uk",
+                "DEFAULT_CA_BUNDLE_PATH": "C:\\Users\\C0284773\\Documents\\dev-code\\aws-auth\\cacert.pem"
+            }
+        },
+    ]
+}

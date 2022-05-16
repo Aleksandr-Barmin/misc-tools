@@ -1,0 +1,10 @@
+apiVersion: v1
+description: This Helm chart is used locally to connect to RDS instances.
+home: https://github.com/santander-group-uk/sirius-helm-ssm-connector
+keywords:
+- ssm-connector
+- rds-connect
+name: ssm-connector
+sources:
+- https://github.com/santander-group-uk/sirius-helm-ssm-connector
+version: v0.11.0

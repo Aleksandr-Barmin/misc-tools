@@ -1,0 +1,10 @@
+apiVersion: v1
+data:
+  ENV: {{.Values.environment}}
+  SERVICE_PORT: "{{.Values.service_port}}"
+  SERVICE: {{.Values.service}}
+  DB_TYPE: {{.Values.db_type}}
+kind: ConfigMap
+metadata:
+  name: ssm-connector-{{.Values.random}}
+  namespace: ssm-connector

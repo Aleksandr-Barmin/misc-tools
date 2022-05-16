@@ -1,0 +1,72 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  labels:
+    app: ssm-connector-{{.Values.random}}
+  name: ssm-connector-{{.Values.random}}
+  namespace: ssm-connector
+spec:
+  backoffLimit: 1
+  completions: 1
+  parallelism: 1
+  ttlSecondsAfterFinished: 0
+  template:
+    metadata:
+      labels:
+        app: ssm-connector-{{.Values.random}}
+        job-name: ssm-connector-{{.Values.random}}
+    spec:
+      activeDeadlineSeconds: 3800
+      containers:
+      - envFrom:
+        - configMapRef:
+            name: ssm-connector-{{.Values.random}}
+        - configMapRef:
+            name: proxy-environment-variables
+        env:
+          - name: PROJECT_NAME
+            valueFrom:
+              secretKeyRef:
+                name: project
+                key: name
+          - name: INFRA_DOMAIN
+            valueFrom:
+              secretKeyRef:
+                name: awsinfo
+                key: infradomain
+        image: {{ default "Missing .Values.image.name" .Values.image.name }}:{{ default "latest" .Values.image.tag }}
+        imagePullPolicy: IfNotPresent
+        name: ssm-connector
+        lifecycle:
+          preStop:
+            exec:
+              command:
+              - aws
+              - ssm
+              - deregister-managed-instance
+              - --instance-id
+              - $(cat /var/lib/amazon/ssm/registration | jq -r ".ManagedInstanceID")
+        startupProbe: 
+          exec:
+            command:
+            - test
+            - -f
+            - "/var/lib/amazon/ssm/registration"
+          initialDelaySeconds: 3
+          periodSeconds: 2
+        readinessProbe:
+          exec:
+            command:
+            - "true"
+          periodSeconds: 5
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Never
+      schedulerName: default-scheduler
+      securityContext:
+        fsGroup: 65534
+      serviceAccount: ssm-connector-{{.Values.random}}
+      serviceAccountName: ssm-connector-{{.Values.random}}
+      terminationGracePeriodSeconds: 30

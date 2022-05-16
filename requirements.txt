@@ -1,0 +1,7 @@
+boto3
+requests
+configparser
+bs4
+kubernetes
+hvac
+hvac[parser]
